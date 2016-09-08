@@ -22,6 +22,7 @@ class DicePool
 		@charms[:mem] ||= false
 		@charms[:dit] ||= false
 		@charms[:hmu] ||= false
+		@charms[:irv] ||= false
 		@excellency = @data[:intelligence] + @data[:craft_skill]
 		@rerolls = Array.new
 		@pool = Array.new
@@ -29,6 +30,11 @@ class DicePool
 		@used_successes = Array.new
 		@uif = 0
 		@total_successes = 0
+		@motes = 0
+		@gxp = 0
+		@sxp = 0
+		@wxp = 0
+		@wp = 0
 		self.base_pool = @data[:base_pool]
 		log "#{@pool.count} size pool = #{@pool.to_s}"
 		log "showing = #{@showing.sort.to_s}"
@@ -63,7 +69,30 @@ class DicePool
 	end
 
 	def cost
-		
+		@motes += @excellency
+		@motes += 6 if charms[:fhm]
+		@motes += 6 if charms[:fhm2]
+		if charms[:smf2]
+			@motes += 5
+			@wp += 1
+			@gxp += 1
+		end
+		if charms[:ecottv]
+			@motes += 4
+			@gxp += 4
+		end
+		if charms[:uif]
+			@motes += 3 * @uif
+			@gxp += @uif
+		end
+		if charms[:mem]
+			@sxp += @data[:craft_skill]
+		end
+		if charms[:irv]
+			@motes += 12
+			@wp += 1
+			@wxp += 1
+		end
 	end
 
 	def excellency
