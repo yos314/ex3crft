@@ -69,6 +69,7 @@ class DicePool
 	end
 
 	def cost
+		@gxp += 10
 		@motes += @excellency
 		@motes += 6 if charms[:fhm]
 		@motes += 6 if charms[:fhm2]
@@ -87,6 +88,7 @@ class DicePool
 		end
 		if charms[:mem]
 			@sxp += @data[:craft_skill]
+			@wxp += 1
 		end
 		if charms[:irv]
 			@motes += 12
